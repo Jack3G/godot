@@ -28,5 +28,8 @@
 		<member name="scroll_offset" type="Vector2" setter="set_scroll_offset" getter="get_scroll_offset" default="Vector2(0, 0)">
 			The ParallaxBackground's scroll value. Calculated automatically when using a [Camera2D], but can be used to manually manage scrolling when no camera is present.
 		</member>
+		<member name="scroll_rotation" type="float" setter="set_scroll_rotation" getter="get_scroll_rotation" default="0.0">
+			The ParallaxBackground's rotation. Calculated automatically when using a [Camera2D], but can be used to manually manage rotation when no camera is present.
+		</member>
 	</members>
 </class>

@@ -49,6 +49,7 @@ void ParallaxBackground::_camera_moved(const Transform2D &p_transform, const Poi
 	screen_offset = p_screen_offset;
 
 	set_scroll_scale(p_transform.get_scale().dot(Vector2(0.5, 0.5)));
+        set_scroll_rotation(p_transform.get_rotation());
 	set_scroll_offset(p_transform.get_origin());
 }
 
@@ -58,6 +59,14 @@ void ParallaxBackground::set_scroll_scale(real_t p_scale) {
 
 real_t ParallaxBackground::get_scroll_scale() const {
 	return scale;
+}
+
+void ParallaxBackground::set_scroll_rotation(real_t p_rotation) {
+        rotation = p_rotation;
+}
+
+real_t ParallaxBackground::get_scroll_rotation() const {
+        return rotation;
 }
 
 void ParallaxBackground::set_scroll_offset(const Point2 &p_ofs) {
@@ -102,9 +111,9 @@ void ParallaxBackground::_update_scroll() {
 		}
 
 		if (ignore_camera_zoom) {
-			l->set_base_offset_and_scale((scroll_ofs + screen_offset * (scale - 1)) / scale, 1.0);
+			l->set_base_offset_and_scale((scroll_ofs + screen_offset * (scale - 1)) / scale, 1.0, rotation);
 		} else {
-			l->set_base_offset_and_scale(scroll_ofs, scale);
+			l->set_base_offset_and_scale(scroll_ofs, scale, rotation);
 		}
 	}
 }
@@ -165,6 +174,8 @@ void ParallaxBackground::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("_camera_moved"), &ParallaxBackground::_camera_moved);
 	ClassDB::bind_method(D_METHOD("set_scroll_offset", "offset"), &ParallaxBackground::set_scroll_offset);
 	ClassDB::bind_method(D_METHOD("get_scroll_offset"), &ParallaxBackground::get_scroll_offset);
+	ClassDB::bind_method(D_METHOD("set_scroll_rotation", "rotation"), &ParallaxBackground::set_scroll_rotation);
+	ClassDB::bind_method(D_METHOD("get_scroll_rotation"), &ParallaxBackground::get_scroll_rotation);
 	ClassDB::bind_method(D_METHOD("set_scroll_base_offset", "offset"), &ParallaxBackground::set_scroll_base_offset);
 	ClassDB::bind_method(D_METHOD("get_scroll_base_offset"), &ParallaxBackground::get_scroll_base_offset);
 	ClassDB::bind_method(D_METHOD("set_scroll_base_scale", "scale"), &ParallaxBackground::set_scroll_base_scale);
@@ -178,6 +189,7 @@ void ParallaxBackground::_bind_methods() {
 
 	ADD_GROUP("Scroll", "scroll_");
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "scroll_offset", PROPERTY_HINT_NONE, "suffix:px"), "set_scroll_offset", "get_scroll_offset");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "scroll_rotation", PROPERTY_HINT_NONE), "set_scroll_rotation", "get_scroll_rotation");
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "scroll_base_offset", PROPERTY_HINT_NONE, "suffix:px"), "set_scroll_base_offset", "get_scroll_base_offset");
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "scroll_base_scale", PROPERTY_HINT_LINK), "set_scroll_base_scale", "get_scroll_base_scale");
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "scroll_limit_begin", PROPERTY_HINT_NONE, "suffix:px"), "set_limit_begin", "get_limit_begin");

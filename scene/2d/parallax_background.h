@@ -38,6 +38,7 @@ class ParallaxBackground : public CanvasLayer {
 
 	Point2 offset;
 	real_t scale = 1.0;
+	real_t rotation;
 	Point2 base_offset;
 	Point2 base_scale = Vector2(1, 1);
 	Point2 screen_offset;
@@ -61,6 +62,9 @@ public:
 
 	void set_scroll_scale(real_t p_scale);
 	real_t get_scroll_scale() const;
+
+	void set_scroll_rotation(real_t p_rotation);
+	real_t get_scroll_rotation() const;
 
 	void set_scroll_base_offset(const Point2 &p_ofs);
 	Point2 get_scroll_base_offset() const;
